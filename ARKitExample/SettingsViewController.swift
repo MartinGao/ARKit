@@ -57,7 +57,14 @@ class SettingsViewController: UITableViewController {
 	@IBOutlet weak var useOcclusionPlanesSwitch: UISwitch!
     @IBOutlet weak var resetAllAnimationsButton: UIButton!
     
+    var theViewController:ViewController!
+    
     var virtualObject:SCNNode = SCNNode()
+    
+    var messagePanel:UIView = UIView()
+    var screenshotButton:UIButton = UIButton()
+    var addObjectButton:UIButton = UIButton()
+    var restartExperienceButton:UIButton = UIButton()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -87,6 +94,17 @@ class SettingsViewController: UITableViewController {
 		}
 	}
 	
+    @IBAction func hideEverything(_ sender: Any) {
+        self.messagePanel.isHidden = true
+        self.screenshotButton.isHidden = true
+        self.addObjectButton.isHidden = true
+        self.restartExperienceButton.isHidden = true
+        self.restartExperienceButton.isHidden = true
+        self.theViewController.overrideHideEverythingMode = true
+        self.theViewController.focusSquare?.isHidden = true
+        self.theViewController.settingsButton.isHidden = true
+    }
+    
     @IBAction func resetAllAnimations(_ sender: Any) {
         print("\n[DEBUG] RESET ALL ANIMATION!")
 //        print(self.virtualObject.childNodes)

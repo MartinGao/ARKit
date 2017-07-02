@@ -257,8 +257,12 @@ class TextManager {
 	
 	private func updateMessagePanelVisibility() {
 		// Show and hide the panel depending whether there is something to show.
-		viewController.messagePanel.isHidden = viewController.messageLabel.isHidden &&
-			viewController.debugMessageLabel.isHidden &&
-			viewController.featurePointCountLabel.isHidden
+        if self.viewController.overrideHideEverythingMode {
+            self.viewController.messagePanel.isHidden = true
+        } else {
+            viewController.messagePanel.isHidden = viewController.messageLabel.isHidden &&
+                viewController.debugMessageLabel.isHidden &&
+                viewController.featurePointCountLabel.isHidden
+        }
 	}
 }

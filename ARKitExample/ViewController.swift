@@ -12,7 +12,9 @@ import UIKit
 import Photos
 
 class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, VirtualObjectSelectionViewControllerDelegate {
-	
+    
+    var overrideHideEverythingMode:Bool = false
+    
     // MARK: - Main Setup & View Controller methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -685,9 +687,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	
     var showDebugVisuals: Bool = UserDefaults.standard.bool(for: .debugMode) {
         didSet {
-			featurePointCountLabel.isHidden = !showDebugVisuals
-			debugMessageLabel.isHidden = !showDebugVisuals
-			messagePanel.isHidden = !showDebugVisuals
+            if overrideHideEverythingMode {
+                featurePointCountLabel.isHidden = true
+                debugMessageLabel.isHidden = true
+                messagePanel.isHidden = true
+            } else {
+                featurePointCountLabel.isHidden = !showDebugVisuals
+                debugMessageLabel.isHidden = !showDebugVisuals
+                messagePanel.isHidden = !showDebugVisuals
+            }
+            
 			planes.values.forEach { $0.showDebugVisualization(showDebugVisuals) }
 			
 			if showDebugVisuals {
@@ -717,7 +726,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	
     func setupUIControls() {
 		textManager = TextManager(viewController: self)
-		
+        
         // hide debug message view
 		debugMessageLabel.isHidden = true
 		
@@ -730,30 +739,38 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	var restartExperienceButtonIsEnabled = true
 	
 	@IBAction func restartExperience(_ sender: Any) {
-		
-		guard restartExperienceButtonIsEnabled, !isLoadingObject else {
-			return
-		}
-		
-		DispatchQueue.main.async {
-			self.restartExperienceButtonIsEnabled = false
-			
-			self.textManager.cancelAllScheduledMessages()
-			self.textManager.dismissPresentedAlert()
-			self.textManager.showMessage("STARTING A NEW SESSION")
-			self.use3DOFTracking = false
-			
-			self.setupFocusSquare()
-			self.resetVirtualObject()
-			self.restartPlaneDetection()
-			
-			self.restartExperienceButton.setImage(#imageLiteral(resourceName: "restart"), for: [])
-			
-			// Disable Restart button for five seconds in order to give the session enough time to restart.
-			DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
-				self.restartExperienceButtonIsEnabled = true
-			})
-		}
+        if self.overrideHideEverythingMode {
+            self.messagePanel.isHidden = false
+            self.addObjectButton.isHidden = false
+            self.screenshotButton.isHidden = false
+            self.settingsButton.isHidden = false
+            self.restartExperienceButton.isHidden = false
+            self.overrideHideEverythingMode = false
+        } else {
+            guard restartExperienceButtonIsEnabled, !isLoadingObject else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.restartExperienceButtonIsEnabled = false
+                
+                self.textManager.cancelAllScheduledMessages()
+                self.textManager.dismissPresentedAlert()
+                self.textManager.showMessage("STARTING A NEW SESSION")
+                self.use3DOFTracking = false
+                
+                self.setupFocusSquare()
+                self.resetVirtualObject()
+                self.restartPlaneDetection()
+                
+                self.restartExperienceButton.setImage(#imageLiteral(resourceName: "restart"), for: [])
+                
+                // Disable Restart button for five seconds in order to give the session enough time to restart.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                    self.restartExperienceButtonIsEnabled = true
+                })
+            }
+        }
 	}
 	
 	@IBOutlet weak var screenshotButton: UIButton!
@@ -805,6 +822,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		}
         
         settingsViewController.virtualObject = self.sceneView.scene.rootNode
+        settingsViewController.messagePanel = self.messagePanel
+        settingsViewController.screenshotButton =  self.screenshotButton
+        settingsViewController.addObjectButton =  self.addObjectButton
+        settingsViewController.restartExperienceButton =  self.restartExperienceButton
+        settingsViewController.theViewController =  self
+        
         
 		let barButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissSettings))
 		settingsViewController.navigationItem.rightBarButtonItem = barButtonItem

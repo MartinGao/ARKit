@@ -498,6 +498,39 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="jTX-bI-WE2">
+                                        <rect key="frame" x="0.0" y="607.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jTX-bI-WE2" id="A69-8e-mdy">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hide Everything" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jUc-lr-8C6">
+                                                    <rect key="frame" x="16" y="15" width="261" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chk-0g-kTN">
+                                                    <rect key="frame" x="321" y="7" width="46" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="46" id="X9s-EN-gOf"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Apply"/>
+                                                    <connections>
+                                                        <action selector="hideEverything:" destination="DF8-Gu-Tf1" eventType="touchUpInside" id="Yow-SA-VhT"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="chk-0g-kTN" firstAttribute="centerY" secondItem="A69-8e-mdy" secondAttribute="centerY" id="24r-HW-etA"/>
+                                                <constraint firstItem="jUc-lr-8C6" firstAttribute="top" secondItem="A69-8e-mdy" secondAttribute="topMargin" constant="7" id="AsC-KK-FPm"/>
+                                                <constraint firstItem="chk-0g-kTN" firstAttribute="leading" secondItem="jUc-lr-8C6" secondAttribute="trailing" constant="44" id="JKb-S9-dDD"/>
+                                                <constraint firstItem="chk-0g-kTN" firstAttribute="trailing" secondItem="A69-8e-mdy" secondAttribute="trailingMargin" id="Vhv-9s-Fk4"/>
+                                                <constraint firstItem="jUc-lr-8C6" firstAttribute="leading" secondItem="A69-8e-mdy" secondAttribute="leadingMargin" constant="8" id="ykP-KV-oY6"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
