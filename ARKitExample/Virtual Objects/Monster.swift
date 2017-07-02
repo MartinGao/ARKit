@@ -16,7 +16,7 @@ class Monster: VirtualObject {
     
     init(title:String) {
         super.init(modelName: "testOne", fileExtension: "dae", thumbImageFilename: "vase", title: title)
-//        self.scale = SCNVector3Make(0.06, 0.06, 0.06)
+        self.scale = SCNVector3Make(0.06, 0.06, 0.06)
     }
     
     required init?(coder aDecoder: NSCoder) {
